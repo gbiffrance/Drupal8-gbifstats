@@ -1,0 +1,6 @@
+name: GBIF Stats
+type: module
+description: 'GBIF Stats generator for Drupal'
+package: Development
+core: 8.x
+configure: gbifstats.form

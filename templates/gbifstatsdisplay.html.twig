@@ -1,0 +1,52 @@
+{#
+/**
+ * @file
+ * Default theme implementation to print GBIF Stats text.
+ *
+ * Available variables:
+ *   - 'country_code'
+ *   - 'last_datasets'
+ *   - 'nb_publishers'
+ *   - 'nb_occurrences'
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="stats">
+
+    {#/*  Number of publishers & Occurrences number */#}
+    <div class="stats-rond col-xs-12 col-sm-6">
+        <p class="stats_texte">Sur le GBIF,</p>
+        {% if country_code|length > 0 and nb_publishers|length > 0 %}
+            <p class="stats_chiffre"><a href="https://www.gbif.org/fr/publisher/search?country={{ country_code }}" target="_blank">{{ nb_publishers }}</a></p>
+        {% else %}
+            <p class="stats_chiffre">Error : country unknow or getting no publishers</p>
+        {% endif %}
+        <p class="stats_texte">fournisseurs de donn&eacute;es fran&ccedil;ais publient</p>
+        {% if country_code|length > 0 and nb_occurrences|length > 0 %}
+            <p class="stats_chiffre"><a href="https://www.gbif.org/fr/occurrence/search?publishing_country={{ country_code }}&advanced=1" target="_blank">{{ nb_occurrences }}</a></p>
+        {% else %}
+            <p class="stats_chiffre">Error : country unknow or getting no occurrences</p>
+        {% endif %}
+        <p class="stats_texte">occurrences de donn&eacute;es</p>
+    </div>
+
+    {#/*  Last datasets  */#}
+    <div class="stats-dataset col-xs-12 col-sm-6">
+        <h3 class="stats_texte">Derniers jeux de données publi&eacute;s :</h3>
+        <div class="stats_dataset">
+            <ul>
+                {% for dataset in last_datasets %}
+                    {% if dataset|length > 0 and dataset.key_dataset|length > 0 and dataset.title_dataset|length > 0 %}
+                        <li class="stats_dataset_texte"><a href="https://www.gbif.org/dataset/{{ dataset.key_dataset }}" target="_blank">{{ dataset.title_dataset }}</a></li>
+                    {% elseif dataset|length > 0 %}
+                        <li class="stats_dataset_texte">Error : dataset unknow</li>
+                    {% else %}
+                        <li class="stats_dataset_texte">Error : No datasets</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</div>

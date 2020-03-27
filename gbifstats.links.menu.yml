@@ -1,0 +1,5 @@
+gbifstats.form:
+  title: 'GBIF Stats settings'
+  description: 'Configure settings for the GBIF Stats module.'
+  route_name: gbifstats.form
+  parent: 'system.admin_config_development'

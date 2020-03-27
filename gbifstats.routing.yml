@@ -1,0 +1,21 @@
+gbifstats.generate:
+  path: 'gbifstats/generate/{country}'
+  defaults:
+    _controller: '\Drupal\gbifstats\Controller\GBIFStatsController::generate'
+  requirements:
+    _permission: 'generate GBIF Stats'
+
+gbifstats.dispaly:
+  path: 'gbifstats/display/{country}'
+  defaults:
+    _controller: '\Drupal\gbifstats\Controller\GBIFStatsController::display'
+  requirements:
+    _permission: 'generate GBIF Stats'
+
+gbifstats.form:
+  path: '/admin/config/development/gbifstats'
+  defaults:
+    _form: 'Drupal\gbifstats\Form\GBIFStatsForm'
+    _title: 'GBIF STats settings'
+  requirements:
+    _permission: 'administer site configuration'

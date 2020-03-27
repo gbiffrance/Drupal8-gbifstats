@@ -1,0 +1,50 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function gbifstats_help($route_name, RouteMatchInterface $route_match) {
+    switch ($route_name) {
+        case 'help.page.gbifstats':
+            return t('
+        <h2>GBIF Stats generator for Drupal.</h2>
+        <h3>Instructions</h3>
+        <p>Go to  <strong>/gbifstats/generate/{country_code}</strong> where {country_code} is a country code with 2 letters.</p>
+        <p>The page will generate the files who contains the data from the GBIF API.</p>
+        <p>Then, visit <strong>/gbifstats/display/{country_code}</strong> to see the data of the chosen country in the GBIF network.</p>
+        <p>For a block, visit <strong>/admin/config/development/gbifstats</strong>.</p>
+        <p>If you need, there\'s also a specific <em>generate GBIF Stats</em> permission.</p>
+        <h3>Attention</h3>
+        <p>Most bugs have been ironed out, holes covered, features added. But this module is a work in progress. Please report bugs and suggestions, ok?</p>
+      ');
+    }
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function gbifstats_theme($existing, $type, $theme, $path) {
+    $variables = array(
+        'gbifstatsgenerate' => array(
+            'variables' => array(
+                '$country' => NULL,
+            ),
+            'template' => 'gbifstatsgenerate',
+        ),
+        'gbifstatsdisplay' => array(
+            'variables' => array(
+                'country_code' => NULL,
+                'last_datasets' => NULL,
+                'nb_publishers' => NULL,
+                'nb_occurrences' => NULL,
+            ),
+            'template' => 'gbifstatsdisplay',
+        ),
+    );
+    return $variables;
+}
+
+
