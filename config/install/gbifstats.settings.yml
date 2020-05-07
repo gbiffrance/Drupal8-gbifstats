@@ -1,6 +1,11 @@
 gbifstats:
   page_title: 'GBIF Stats'
   country_code: "FR"
+  node_name: "GBIF France"
+  website: "http://www.gbif.fr"
+  head_delegation: "Eric Chenin"
+  node_manager: "Anne-Sophie Archambeau"
+  link_page_GBIF: "https://www.gbif.org/country/FR/summary"
   nb_publishers: "0"
   nb_occurrences: "0"
   categories: ['nb_fournisseurs', 'nb_occurrences', 'last_dataset']

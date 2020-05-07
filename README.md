@@ -18,6 +18,10 @@ Un bloc généré par le module et qui affichent aussi les données est égaleme
 
 Si vous avez besoin des informations pour d'autre modules, vous avez besoin de la permission *generate GBIF Stats*.
 
+Important
+---------
+Vérifiez que Drupal puisse écrire dans le dossier `data` du module.
+
 Attention
 ---------
 
@@ -45,6 +49,11 @@ Instructions
 There is also a generator block by the module who also displaying the data.
 
 If you need the information for other modules, be advice than you will need *generate GBIF Stats* permission.
+
+Important
+---------
+Drupal must have the right to write into the folder `data`
+
 
 Attention
 ---------

@@ -30,13 +30,18 @@ function gbifstats_theme($existing, $type, $theme, $path) {
     $variables = array(
         'gbifstatsgenerate' => array(
             'variables' => array(
-                '$country' => NULL,
+                'country_code' => NULL,
             ),
             'template' => 'gbifstatsgenerate',
         ),
         'gbifstatsdisplay' => array(
             'variables' => array(
                 'country_code' => NULL,
+                'node_name' => NULL,
+                'website' => NULL,
+                'head_delegation' => NULL,
+                'node_manager' => NULL,
+                'link_page_GBIF' => NULL,
                 'last_datasets' => NULL,
                 'nb_publishers' => NULL,
                 'nb_occurrences' => NULL,

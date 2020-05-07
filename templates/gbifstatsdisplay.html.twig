@@ -14,6 +14,15 @@
 #}
 <div class="stats">
 
+    {#/*  General info */#}
+    <div id="national_info">
+        <p id="node_name">Node name : {{ node_name }}</p>
+        <p id="website">Website : <a href="{{ website }}" target="_blank">{{ website }}</a></p>
+        <p id="head_delegation">Head of the delegation : {{ head_delegation }}</p>
+        <p id="node_manager">Node_manager : {{ node_manager }}</p>
+        <p id="link_page_GBIF">link to the GBIF page : <a href="{{ link_page_GBIF }}" target="_blank">{{ link_page_GBIF }}</a></p>
+    </div><hr/>
+
     {#/*  Check if we have data */#}
     {% if country_code|length != 2 %}
         <div class="stats-rond col-xs-12 col-sm-12">

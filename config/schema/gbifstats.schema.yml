@@ -11,6 +11,21 @@ gbifstats.settings:
         country_code:
           type: text
           label: 'Code on two letter of a country to getting data from GBIF API :'
+        node_name:
+          type: text
+          label: 'Name of the node :'
+        website:
+          type: text
+          label: 'The URL of the node website :'
+        head_delegation:
+          type: text
+          label: 'Name of the Head of the delegation :'
+        node_manager:
+          type: text
+          label: 'Name of the node manager :'
+        link_page_GBIF:
+          type: text
+          label: 'The URL of the national GBIF page  :'
 block.settings.gbifstats_block:
   type: block_settings
   label: 'GBIF Stats block'

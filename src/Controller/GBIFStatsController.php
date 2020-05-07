@@ -123,6 +123,11 @@ class GBIFStatsController {
         $config = \Drupal::config('gbifstats.settings');
         // Getting module parameters
         $page_title = $config->get('gbifstats.page_title');
+        $node_name = $config->get('gbifstats.node_name');
+        $website = $config->get('gbifstats.website');
+        $head_delegation = $config->get('gbifstats.head_delegation');
+        $node_manager = $config->get('gbifstats.node_manager');
+        $link_page_GBIF = $config->get('gbifstats.link_page_GBIF');
         $nb_publishers = $config->get('gbifstats.nb_publishers');
         $nb_occurrences = $config->get('gbifstats.nb_occurrences');
         $categories = $config->get('gbifstats.categories');
@@ -169,6 +174,11 @@ class GBIFStatsController {
         }
 
         /*  Data for the displaying of information  */
+        $element['#node_name'] = Html::escape($node_name);
+        $element['#website'] = Html::escape($website);
+        $element['#head_delegation'] = Html::escape($head_delegation);
+        $element['#node_manager'] = Html::escape($node_manager);
+        $element['#link_page_GBIF'] = Html::escape($link_page_GBIF);
 
         $element['#country_code'] = Html::escape($country);
         $element['#title'] = Html::escape($page_title);
