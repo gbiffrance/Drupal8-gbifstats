@@ -20,7 +20,7 @@ Si vous avez besoin des informations pour d'autre modules, vous avez besoin de l
 
 Important
 ---------
-Vérifiez que Drupal puisse écrire dans le dossier `data` du module.
+Vérifiez que Drupal puisse écrire dans le dossier `data` du module. Si ce n'est pas le cas, suivez les instructions du fichier READEME.md du dossier `data` 
 
 Attention
 ---------
@@ -52,7 +52,7 @@ If you need the information for other modules, be advice than you will need *gen
 
 Important
 ---------
-Drupal must have the right to write into the folder `data`
+Drupal must have the right to write into the folder `data`. If that not the case, follow the instructions of the README.md of the `data` folder. 
 
 
 Attention
