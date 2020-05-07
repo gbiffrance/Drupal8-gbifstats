@@ -4,18 +4,19 @@ namespace Drupal\gbifstats\Plugin\Block;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 
 /**
- * Provides a GBIF Stats block with which you can generate dummy text anywhere.
+ * Provides a GBIF Stats block with which you can generate informations.
  *
  * @Block(
  *   id = "gbifstats_block",
  *   admin_label = @Translation("GBIF Stats block"),
  * )
  */
-class GBIFStatsBlock extends BlockBase {
+class GBIFStatsBlock extends BlockBase implements BlockPluginInterface {
 
     /**
      * {@inheritdoc}

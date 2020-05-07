@@ -8,6 +8,7 @@ use Drupal\Core\Url;
 // use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Component\Utility\Html;
 // use Html instead SAfeMarkup
+use Drupal\Core\Render\Element;
 
 /**
  * Controller routines for GBIF Stats pages.
@@ -101,8 +102,9 @@ class GBIFStatsController {
         //Save informations
         file_put_contents($module_path.'/data/'.$country.'-last_datasets.json', json_encode($last_datasets));
 
-        $element['#country_code'] = Html::escape($country);
+        /*  Data for the displaying of information  */
 
+        $element['#country_code'] = Html::escape($country);
         $element['#title'] = Html::escape($page_title);
 
         // Theme function.
@@ -123,6 +125,7 @@ class GBIFStatsController {
         $page_title = $config->get('gbifstats.page_title');
         $nb_publishers = $config->get('gbifstats.nb_publishers');
         $nb_occurrences = $config->get('gbifstats.nb_occurrences');
+        $categories = $config->get('gbifstats.categories');
 
         //Path of the module
         $module_handler = \Drupal::service('module_handler');
@@ -131,32 +134,43 @@ class GBIFStatsController {
         //Initialing variables
         $last_datasets_json = $nb_publishers_txt = $nb_occurrences_txt = "";
         $element['#last_datasets'] = array();
-
         $element['#nb_publishers'] = Html::escape($nb_publishers);
         $element['#nb_occurrences'] = Html::escape($nb_occurrences);
 
         /*  Getting the number of publishers   */
-        $nb_publishers_txt = file_get_contents($module_path.'/data/'.$country.'-nb_publishers.txt');
-        $element['#nb_publishers'] = Html::escape("".$nb_publishers_txt);
-
-        /*  Getting the occurrences number */
-        $nb_occurrences_txt = file_get_contents($module_path.'/data/'.$country.'-nb_occurrences.txt');
-        $element['#nb_occurrences'] = Html::escape("".$nb_occurrences_txt);
-
-        /*  Getting the last datasets  */
-
-        $last_datasets_json = file_get_contents($module_path.'/data/'.$country.'-last_datasets.json');
-        $datasets_array = json_decode($last_datasets_json, true);
-
-        for($index=0 ;$index<5 ; $index++){
-                $dataset = array();
-                $dataset['key_dataset'] = Html::escape("".$datasets_array[$index]["key"]);
-                $dataset['title_dataset'] = Html::escape("".$datasets_array[$index]["title"]);
-                array_push($element['#last_datasets'], $dataset);
+        if($categories["nb_publishers"] != "0") {
+            $nb_publishers_txt = file_get_contents($module_path . '/data/' . $country . '-nb_publishers.txt');
+            $element['#nb_publishers'] = Html::escape("" . $nb_publishers_txt);
+        }else{
+            $element['#nb_publishers'] = Html::escape("NoSelect");
         }
 
-        $element['#country_code'] = Html::escape($country);
+        /*  Getting the occurrences number */
+        if($categories["nb_occurrences"] != "0") {
+            $nb_occurrences_txt = file_get_contents($module_path . '/data/' . $country . '-nb_occurrences.txt');
+            $element['#nb_occurrences'] = Html::escape("" . $nb_occurrences_txt);
+        }else{
+            $element['#nb_occurrences'] = Html::escape("NoSelect");
+        }
 
+        /*  Getting the last datasets  */
+        if($categories["last_dataset"] != "0") {
+            $last_datasets_json = file_get_contents($module_path . '/data/' . $country . '-last_datasets.json');
+            $datasets_array = json_decode($last_datasets_json, true);
+
+            for ($index = 0; $index < 5; $index++) {
+                $dataset = array();
+                $dataset['key_dataset'] = Html::escape("" . $datasets_array[$index]["key"]);
+                $dataset['title_dataset'] = Html::escape("" . $datasets_array[$index]["title"]);
+                array_push($element['#last_datasets'], $dataset);
+            }
+        }else{
+            $element['#last_datasets'] = Html::escape("NoSelect");
+        }
+
+        /*  Data for the displaying of information  */
+
+        $element['#country_code'] = Html::escape($country);
         $element['#title'] = Html::escape($page_title);
 
         // Theme function.

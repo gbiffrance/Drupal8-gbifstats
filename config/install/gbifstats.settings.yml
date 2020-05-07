@@ -3,3 +3,4 @@ gbifstats:
   country_code: "FR"
   nb_publishers: "0"
   nb_occurrences: "0"
+  categories: ['nb_fournisseurs', 'nb_occurrences', 'last_dataset']

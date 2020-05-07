@@ -23,10 +23,8 @@ class GBIFStatsBlockForm extends FormBase {
      */
     public function buildForm(array $form, FormStateInterface $form_state) {
 
-        $options = array_combine(range(1, 10), range(1, 10));
-
         // Defining the country code
-        $form['code'] = [
+        $form['country'] = [
             '#type' => 'textfield',
             '#title' => $this->t('Country Code'),
             '#default_value' => 'FR',
