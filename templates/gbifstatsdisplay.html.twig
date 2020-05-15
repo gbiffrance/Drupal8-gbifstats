@@ -15,21 +15,33 @@
 <div class="stats">
 
     {#/*  General info */#}
-    <div id="national_info">
-        <p id="node_name">Node name : {{ node_name }}</p>
-        <p id="website">Website : <a href="{{ website }}" target="_blank">{{ website }}</a></p>
-        <p id="head_delegation">Head of the delegation : {{ head_delegation }}</p>
-        <p id="node_manager">Node_manager : {{ node_manager }}</p>
-        <p id="link_page_GBIF">link to the GBIF page : <a href="{{ link_page_GBIF }}" target="_blank">{{ link_page_GBIF }}</a></p>
-    </div><hr/>
+    {% if node_name is not empty or website is not empty or head_delegation is not empty or node_manager is not empty or link_page_GBIF is not empty %}
+        <div id="national_info">
+            {% if node_name is not empty %}
+                <p id="node_name">Nom du point nodal national : {{ node_name }}</p>
+            {% endif %}
+            {% if website is not empty %}
+                <p id="website">Site internet : <a href="{{ website }}" target="_blank">{{ website }}</a></p>
+            {% endif %}
+            {% if head_delegation is not empty %}
+                <p id="head_delegation">Chef de la delegation : {{ head_delegation }}</p>
+            {% endif %}
+            {% if node_manager is not empty %}
+                <p id="node_manager">Chef du point nodal national : {{ node_manager }}</p>
+            {% endif %}
+            {% if link_page_GBIF is not empty %}
+                <p id="link_page_GBIF">Lien vers la page GBIF : <a href="{{ link_page_GBIF }}" target="_blank">{{ link_page_GBIF }}</a></p>
+            {% endif %}
+        </div><hr/>
+    {% endif %}
 
-    {#/*  Check if we have data */#}
+    {#/*  Check if we have stats */#}
     {% if country_code|length != 2 %}
         <div class="stats-rond col-xs-12 col-sm-12">
             <p class="stats_texte">Code pays invalide - Mettez les deux lettres en majuscule correspondant à un pays.</p>
         </div>
 
-    {#/*  Start displaying data */#}
+    {#/*  Start displaying stats */#}
     {% else %}
 
         <div class="stats-rond col-xs-12 col-sm-6">
@@ -93,11 +105,16 @@
                     </div>
                 {% endif %}
 
-            </div>
+            </div><hr/>
 
         {% endif %}
         {#/*  End Last datasets  */#}
 
     {% endif %}
-    {#/*  End displaying data */#}
+    {#/*  End displaying stats */#}
+
+    {#/*  GBIF Maps */#}
+    {#/*  see js/gbifstats.js */#}
+    {{ attach_library('gbifstats/gbifstats') }}
+    <div id= "gbifstatsmap"></div>
 </div>

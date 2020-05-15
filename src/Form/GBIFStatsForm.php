@@ -42,35 +42,35 @@ class GBIFStatsForm extends ConfigFormBase {
         $form['node_name'] = [
             '#type' => 'textfield',
             '#title' => $this->t('Node name'),
-            '#default_value' => 'GBIF France',
+            '#default_value' => $config->get('gbifstats.node_name'),
             '#description' => $this->t('The name of the national node'),
         ];
 
         $form['website'] = [
             '#type' => 'textfield',
             '#title' => $this->t('Website'),
-            '#default_value' => 'http://www.gbif.fr',
+            '#default_value' => $config->get('gbifstats.website'),
             '#description' => $this->t('The URL of the website'),
         ];
 
         $form['head_delegation'] = [
             '#type' => 'textfield',
             '#title' => $this->t('Head of the delegation'),
-            '#default_value' => 'Eric Chenin',
+            '#default_value' => $config->get('gbifstats.head_delegation'),
             '#description' => $this->t('The name of the head of the national delegation'),
         ];
 
         $form['node_manager'] = [
             '#type' => 'textfield',
             '#title' => $this->t('Node Manager'),
-            '#default_value' => 'Anne-Sophie Archambeau',
+            '#default_value' => $config->get('gbifstats.node_manager'),
             '#description' => $this->t('The name of the node mananager'),
         ];
 
         $form['link_page_GBIF'] = [
             '#type' => 'textfield',
             '#title' => $this->t('GBIF page of the node'),
-            '#default_value' => 'https://www.gbif.org/country/FR/summary',
+            '#default_value' => $config->get('gbifstats.link_page_GBIF'),
             '#description' => $this->t('The URL adresse to the GBIF page of the node'),
         ];
 

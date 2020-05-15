@@ -183,6 +183,10 @@ class GBIFStatsController {
         $element['#country_code'] = Html::escape($country);
         $element['#title'] = Html::escape($page_title);
 
+        /*  Data for js function  */
+        $build['#attached']['library'][] = 'gbifstats/gbifstats';
+        $build['#attached']['drupalSettings']['gbifstats']['gbifstats']['country_code'] = $country;
+
         // Theme function.
         $element['#theme'] = 'gbifstatsdisplay';
 
