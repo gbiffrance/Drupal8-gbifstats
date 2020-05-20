@@ -5,9 +5,7 @@ namespace Drupal\gbifstats\Controller;
 use Drupal\Core\Url;
 // Change following https://www.drupal.org/node/2457593
 // See https://www.drupal.org/node/2549395 for deprecate methods information
-// use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Component\Utility\Html;
-// use Html instead SAfeMarkup
 use Drupal\Core\Render\Element;
 
 /**
@@ -52,7 +50,6 @@ class GBIFStatsController {
         $nb_publishers = $publishers_object->{"count"};
 
         //Save informations
-        //$nb_publishers_json = json_encode($nb_publishers);
         file_put_contents($module_path.'/data/'.$country.'-nb_publishers.txt', json_encode($nb_publishers));
 
         /*  Getting the occurrences number */
@@ -76,7 +73,6 @@ class GBIFStatsController {
         $nb_occurrences = $occurrences_object->{"count"};
 
         //Save informations
-        //$nb_occurrences_json = json_encode($nb_occurrences);
         file_put_contents($module_path.'/data/'.$country.'-nb_occurrences.txt', $nb_occurrences);
 
         /*  Getting the last datasets  */
@@ -131,6 +127,7 @@ class GBIFStatsController {
         $nb_publishers = $config->get('gbifstats.nb_publishers');
         $nb_occurrences = $config->get('gbifstats.nb_occurrences');
         $categories = $config->get('gbifstats.categories');
+        $display_map = $config->get('gbifstats.display_map');
 
         //Path of the module
         $module_handler = \Drupal::service('module_handler');
@@ -141,6 +138,7 @@ class GBIFStatsController {
         $element['#last_datasets'] = array();
         $element['#nb_publishers'] = Html::escape($nb_publishers);
         $element['#nb_occurrences'] = Html::escape($nb_occurrences);
+        $element['#display_map'] = Html::escape($display_map);
 
         /*  Getting the number of publishers   */
         if($categories["nb_publishers"] != "0") {
@@ -173,19 +171,25 @@ class GBIFStatsController {
             $element['#last_datasets'] = Html::escape("NoSelect");
         }
 
+        /*  Displaying the map or not   */
+        if($display_map["oui"] != "0") {
+            $element['#display_map'] = Html::escape("oui");
+        }else{
+            $element['#display_map'] = Html::escape("non");
+        }
+
         /*  Data for the displaying of information  */
         $element['#node_name'] = Html::escape($node_name);
         $element['#website'] = Html::escape($website);
         $element['#head_delegation'] = Html::escape($head_delegation);
         $element['#node_manager'] = Html::escape($node_manager);
         $element['#link_page_GBIF'] = Html::escape($link_page_GBIF);
-
         $element['#country_code'] = Html::escape($country);
         $element['#title'] = Html::escape($page_title);
 
         /*  Data for js function  */
-        $build['#attached']['library'][] = 'gbifstats/gbifstats';
-        $build['#attached']['drupalSettings']['gbifstats']['gbifstats']['country_code'] = $country;
+        $element['#attached']['library'][] = 'gbifstats/gbifstats';
+        $element['#attached']['drupalSettings']['gbifstats']['gbifstats']['country_code'] = $country;
 
         // Theme function.
         $element['#theme'] = 'gbifstatsdisplay';

@@ -4,10 +4,17 @@
  * Default theme implementation to print GBIF Stats text.
  *
  * Available variables:
+ *   - 'title'
  *   - 'country_code'
+ *   - 'link_page_GBIF'
+ *   - 'node_manager'
+ *   - 'head_delegation'
+ *   - 'website'
+ *   - 'node_name'
  *   - 'last_datasets'
  *   - 'nb_publishers'
  *   - 'nb_occurrences'
+ *   - 'display_map'
  *
  * @ingroup themeable
  */
@@ -115,6 +122,8 @@
 
     {#/*  GBIF Maps */#}
     {#/*  see js/gbifstats.js */#}
-    {{ attach_library('gbifstats/gbifstats') }}
-    <div id= "gbifstatsmap"></div>
+    {% if display_map is sameas("yes") %}
+        {{ attach_library('gbifstats/gbifstats') }}
+        <div id= "gbifstatsmap"></div>
+    {% endif %}
 </div>

@@ -1,6 +1,5 @@
 gbifstats:
   page_title: 'GBIF Stats'
-  country_code: "FR"
   node_name: "Nom du noeud"
   website: "URL du site internet"
   head_delegation: "Chef de la delegation"
@@ -9,3 +8,4 @@ gbifstats:
   nb_publishers: "0"
   nb_occurrences: "0"
   categories: ['nb_fournisseurs', 'nb_occurrences', 'last_dataset']
+  display_map: 1

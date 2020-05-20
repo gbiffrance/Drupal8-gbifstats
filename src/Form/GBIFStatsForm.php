@@ -24,54 +24,47 @@ class GBIFStatsForm extends ConfigFormBase {
         $config = $this->config('gbifstats.settings');
 
         // Page title field.
-        $form['page_title'] = array(
+        $form['page_title'] = [
             '#type' => 'textfield',
             '#title' => $this->t('Titre de la page :'),
             '#default_value' => $config->get('gbifstats.page_title'),
             '#description' => $this->t('Le titre donné à la page d\'affichage des informations.')
-        );
-        // Country Code field.
-        $form['country_code'] = array(
-            '#type' => 'textfield',
-            '#title' => $this->t('Le code du pays :'),
-            '#default_value' => $config->get('gbifstats.country_code'),
-            '#description' => $this->t('Les deux lettre majuscule constituant le code du pays.')
-        );
+        ];
 
         // Defining all of the GBIF node informations
         $form['node_name'] = [
             '#type' => 'textfield',
-            '#title' => $this->t('Node name'),
+            '#title' => $this->t('Noeud national'),
             '#default_value' => $config->get('gbifstats.node_name'),
-            '#description' => $this->t('The name of the national node'),
+            '#description' => $this->t('Le nom du noeud national'),
         ];
 
         $form['website'] = [
             '#type' => 'textfield',
-            '#title' => $this->t('Website'),
+            '#title' => $this->t('Site internet'),
             '#default_value' => $config->get('gbifstats.website'),
-            '#description' => $this->t('The URL of the website'),
+            '#description' => $this->t('L\'URL du site internet'),
         ];
 
         $form['head_delegation'] = [
             '#type' => 'textfield',
-            '#title' => $this->t('Head of the delegation'),
+            '#title' => $this->t('Chef de la délégation'),
             '#default_value' => $config->get('gbifstats.head_delegation'),
-            '#description' => $this->t('The name of the head of the national delegation'),
+            '#description' => $this->t('Le nom du chef de la délégation'),
         ];
 
         $form['node_manager'] = [
             '#type' => 'textfield',
-            '#title' => $this->t('Node Manager'),
+            '#title' => $this->t('Responsable du Noeud national'),
             '#default_value' => $config->get('gbifstats.node_manager'),
-            '#description' => $this->t('The name of the node mananager'),
+            '#description' => $this->t('Le nom du responsable du noeud national'),
         ];
 
         $form['link_page_GBIF'] = [
             '#type' => 'textfield',
-            '#title' => $this->t('GBIF page of the node'),
+            '#title' => $this->t('Page GBIF du noeud national'),
             '#default_value' => $config->get('gbifstats.link_page_GBIF'),
-            '#description' => $this->t('The URL adresse to the GBIF page of the node'),
+            '#description' => $this->t('L\'adresse URL de la page GBIF du noeud national'),
         ];
 
         // Information section
@@ -86,6 +79,17 @@ class GBIFStatsForm extends ConfigFormBase {
             '#default_value' => $config->get('gbifstats.categories'),
             '#description' => $this->t('Les catégories qui serront affichés sur la page.')
         );
+
+        $form['display_map'] = [
+            '#type' => 'radios',
+            '#title' => $this->t('Affichage de la carte'),
+            '#options' => array(
+                1 => $this->t('oui'),
+                0 => $this->t('non')
+            ),
+            '#default_value' => $config->get('gbifstats.display_map'),
+            '#description' => $this->t('Choissisez d\'afficher la carte ou non.'),
+        ];
 
         return $form;
     }
@@ -102,6 +106,7 @@ class GBIFStatsForm extends ConfigFormBase {
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
         $config = $this->config('gbifstats.settings');
+        $config->set('gbifstats.display_map', $form_state->getValue('display_map'));
         $config->set('gbifstats.categories', $form_state->getValue('categories'));
         $config->set('gbifstats.link_page_GBIF', $form_state->getValue('link_page_GBIF'));
         $config->set('gbifstats.node_manager', $form_state->getValue('node_manager'));

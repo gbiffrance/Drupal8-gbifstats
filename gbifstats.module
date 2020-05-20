@@ -46,6 +46,7 @@ function gbifstats_theme($existing, $type, $theme, $path) {
                 'nb_publishers' => NULL,
                 'nb_occurrences' => NULL,
                 'categories' => NULL,
+                'display_map' => NULL,
             ),
             'template' => 'gbifstatsdisplay',
         ),
