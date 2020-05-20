@@ -98,18 +98,7 @@ class GBIFStatsForm extends ConfigFormBase {
      * {@inheritdoc}
      */
     public function validateForm(array &$form, FormStateInterface $form_state) {
-        $country_code = $form_state->getValue('country_code');
-        $node_name = $form_state->getValue('node_name');
-        $head_delegation = $form_state->getValue('head_delegation');
-        $node_manager = $form_state->getValue('node_manager');
-
-        if (!is_string($country_code) || !is_string($head_delegation) || !is_string($node_manager) || !is_string($node_name)) {
-            $form_state->setErrorByName('country_code', $this->t('Please use only letters.'));
-        }
-
-        if (strlen($country_code ) < 2 || strlen($country_code ) > 2) {
-            $form_state->setErrorByName('country_code', $this->t('Country code are two letters only'));
-        }
+        
     }
 
     /**
