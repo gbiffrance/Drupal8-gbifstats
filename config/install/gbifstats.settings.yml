@@ -1,6 +1,6 @@
 gbifstats:
   page_title: 'GBIF Stats'
-  node_name: "Nom du noeud"
+  node_name: "Nom du noeud national"
   website: "URL du site internet"
   head_delegation: "Chef de la delegation"
   node_manager: "Chef du point nodal"

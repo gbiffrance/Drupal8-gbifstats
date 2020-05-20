@@ -11,13 +11,10 @@ function gbifstats_help($route_name, RouteMatchInterface $route_match) {
             return t('
         <h2>GBIF Stats generator for Drupal.</h2>
         <h3>Instructions</h3>
-        <p>Go to  <strong>/gbifstats/generate/{country_code}</strong> where {country_code} is a country code with 2 letters.</p>
-        <p>The page will generate the files who contains the data from the GBIF API.</p>
-        <p>Then, visit <strong>/gbifstats/display/{country_code}</strong> to see the data of the chosen country in the GBIF network.</p>
-        <p>For a block, visit <strong>/admin/config/development/gbifstats</strong>.</p>
-        <p>If you need, there\'s also a specific <em>generate GBIF Stats</em> permission.</p>
-        <h3>Attention</h3>
-        <p>Most bugs have been ironed out, holes covered, features added. But this module is a work in progress. Please report bugs and suggestions, ok?</p>
+        <p>Allez à l\'adresse  <strong>/gbifstats/generate/{country_code}</strong> où {country_code} est le code en deux lettre du pays dont vous voulez les informations.</p>
+        <p>La page générera les informations directement depuis l\'API GBIF.</p>
+        <p>Puis visitez <strong>/gbifstats/display/{country_code}</strong> pour voir les informations.</p>
+        <p>Si vous en avez besoin, il existe la permission <em>generate GBIF Stats</em> pour utiliser ce module.</p>
       ');
     }
 }

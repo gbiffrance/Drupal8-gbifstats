@@ -7,29 +7,22 @@ gbifstats.settings:
       mapping:
         page_title:
           type: text
-          label: 'GBIF Stats generator page title :'
+          label: 'Titre de la page GBIF Stats :'
         country_code:
           type: text
-          label: 'Code on two letter of a country to getting data from GBIF API :'
+          label: 'Code en 2 lettres du pays pour lequel on souhaite les données :'
         node_name:
           type: text
-          label: 'Name of the node :'
+          label: 'Nom du noeud national :'
         website:
           type: text
-          label: 'The URL of the node website :'
+          label: 'Adresse URL du site internet du noeud :'
         head_delegation:
           type: text
-          label: 'Name of the Head of the delegation :'
+          label: 'Nom du chef de délégation :'
         node_manager:
           type: text
-          label: 'Name of the node manager :'
+          label: 'Nom du responsable du point nodal :'
         link_page_GBIF:
           type: text
-          label: 'The URL of the national GBIF page  :'
-block.settings.gbifstats_block:
-  type: block_settings
-  label: 'GBIF Stats block'
-  mapping:
-    gbifstats_block_settings:
-      type: text
-      label: 'GBIF Stats block settings'
+          label: 'Adresse URL de la page GBIF concernant le noeud national :'

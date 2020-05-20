@@ -14,7 +14,7 @@ use Drupal\Core\Render\Element;
 class GBIFStatsController {
 
     /**
-     * Create 3 files with GBIF data on $country
+     * Create 3 files with GBIF data on the chosen country
      * This callback is mapped to the path 'gbifstats/generate/{country}'.
      * @param $country  the country code (two letter in uppercase)
      */
@@ -105,6 +105,8 @@ class GBIFStatsController {
 
         // Theme function.
         $element['#theme'] = 'gbifstatsgenerate';
+
+        /*  End : Data for the displaying of information  */
 
         return $element;
     }
