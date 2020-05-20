@@ -122,7 +122,7 @@
 
     {#/*  GBIF Maps */#}
     {#/*  see js/gbifstats.js */#}
-    {% if display_map is sameas("yes") %}
+    {% if display_map is sameas("oui") %}
         {{ attach_library('gbifstats/gbifstats') }}
         <div id= "gbifstatsmap"></div>
     {% endif %}
