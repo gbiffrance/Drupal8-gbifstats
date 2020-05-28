@@ -174,7 +174,7 @@ class GBIFStatsController {
         }
 
         /*  Displaying the map or not   */
-        if($display_map["oui"] != "0") {
+        if($display_map != "0") {
             $element['#display_map'] = Html::escape("oui");
         }else{
             $element['#display_map'] = Html::escape("non");
