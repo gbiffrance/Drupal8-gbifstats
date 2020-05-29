@@ -12,7 +12,13 @@
  */
 #}
 <div class="stats">
-  <p>Génération complète</p>
-  <p></p>
-  <p>Pour voir le résultats, allez sur la page <a href="../../gbifstats/display/{{ country_code }}" target="_blank">/gbifstats/display/{{ country_code }}</a></p>
+  {% if message_erreur is not sameas("NoError") %}
+    <p>La page a rencontrée une erreur : </p>
+    <p>&nbps;</p>
+    <p>{{ message_erreur }}</p>
+  {% else %}
+    <p>Génération complète</p>
+    <p></p>
+    <p>Pour voir le résultats, allez sur la page <a href="../../gbifstats/display/{{ country_code }}" target="_blank">/gbifstats/display/{{ country_code }}</a></p>
+  {% endif %}
 </div>

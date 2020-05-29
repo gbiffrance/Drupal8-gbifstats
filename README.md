@@ -14,9 +14,10 @@ Instructions
 
 ---
 
-Un bloc généré par le module et qui affichent aussi les données est également disponible.
-
-Si vous avez besoin des informations pour d'autre modules, vous avez besoin de la permission *generate GBIF Stats*.
+Il existe 3 types de permissions dans le module GBIF Stats : 
+    *install GBIF Stats* : pour installer le module, 
+    *generate GBIF Stats* : pour la generation de données (l'accès est restreint de base) 
+    *view GBIF Stats* : pour l'affichage des stats.
 
 Important
 ---------
@@ -46,7 +47,10 @@ Instructions
 
 ---
 
-There is also a generator block by the module who also displaying the data.
+3 permissions are availables on the GBIF Stats module : 
+    *install GBIF Stats* : to install the module, 
+    *generate GBIF Stats* : to the data file generation (acces restricted by default), 
+    *view GBIF Stats* : to watch the gbif stats
 
 If you need the information for other modules, be advice than you will need *generate GBIF Stats* permission.
 

@@ -29,74 +29,84 @@ class GBIFStatsController {
         $module_handler = \Drupal::service('module_handler');
         $module_path = $module_handler->getModule('gbifstats')->getPath();
 
-        /*  Getting the number of publishers   */
+        /*  Test the validity of the country code   */
+        $countryCode = ["AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ", "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC", "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FM", "FO", "FR", "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS", "GT", "GU", "GW", "GY", "HK", "HM", "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT", "JE", "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ", "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PW", "PY", "QA", "RE", "RO", "RS", "RU", "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SY", "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "ZA", "ZM", "ZW"];
 
-        //Get informations
-        $curl_publishers = curl_init();
-        curl_setopt_array($curl_publishers, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_URL => 'https://www.gbif.org/api/publisher/search?isEndorsed=true&country='.$country
-        ]);
+        $element['#message_erreur'] = "NoError";
 
-        if (!curl_exec($curl_publishers)) {
-            die('Error: "' . curl_error($curl_publishers) . '" - Code: ' . curl_errno($curl_publishers));
-        } else {
-            $publishers_json = curl_exec($curl_publishers);
-            curl_close($curl_publishers);
+        if(! in_array($country, $countryCode)){
+            $element['#message_erreur'] = Html::escape("Code pays invalide dans votre URL");
+        }else {
+
+            /*  Getting the number of publishers   */
+
+            //Get informations
+            $curl_publishers = curl_init();
+            curl_setopt_array($curl_publishers, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_URL => 'https://www.gbif.org/api/publisher/search?isEndorsed=true&country=' . $country
+            ]);
+
+            if (!curl_exec($curl_publishers)) {
+                die('Error: "' . curl_error($curl_publishers) . '" - Code: ' . curl_errno($curl_publishers));
+            } else {
+                $publishers_json = curl_exec($curl_publishers);
+                curl_close($curl_publishers);
+            }
+
+            //Extract informations
+            $publishers_object = json_decode($publishers_json);
+            $nb_publishers = $publishers_object->{"count"};
+
+            //Save informations
+            file_put_contents($module_path . '/data/' . $country . '-nb_publishers.txt', json_encode($nb_publishers));
+
+            /*  Getting the occurrences number */
+
+            //Get informations
+            $curl_occurrences = curl_init();
+            curl_setopt_array($curl_occurrences, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_URL => 'http://api.gbif.org/v1/occurrence/search?publishingCountry=' . $country
+            ]);
+
+            if (!curl_exec($curl_occurrences)) {
+                die('Error: "' . curl_error($curl_occurrences) . '" - Code: ' . curl_errno($curl_occurrences));
+            } else {
+                $occurrences_json = curl_exec($curl_occurrences);
+                curl_close($curl_occurrences);
+            }
+
+            //Extract informations
+            $occurrences_object = json_decode($occurrences_json);
+            $nb_occurrences = $occurrences_object->{"count"};
+
+            //Save informations
+            file_put_contents($module_path . '/data/' . $country . '-nb_occurrences.txt', $nb_occurrences);
+
+            /*  Getting the last datasets  */
+
+            //Get informations
+            $curl_datasets = curl_init();
+            curl_setopt_array($curl_datasets, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_URL => 'https://api.gbif.org/v1/dataset?country=' . $country
+            ]);
+
+            if (!curl_exec($curl_datasets)) {
+                die('Error: "' . curl_error($curl_datasets) . '" - Code: ' . curl_errno($curl_datasets));
+            } else {
+                $datasets_json = curl_exec($curl_datasets);
+                curl_close($curl_datasets);
+            }
+
+            //Extract informations
+            $datasets_object = json_decode($datasets_json);
+            $last_datasets = $datasets_object->{"results"};
+
+            //Save informations
+            file_put_contents($module_path . '/data/' . $country . '-last_datasets.json', json_encode($last_datasets));
         }
-
-        //Extract informations
-        $publishers_object = json_decode($publishers_json);
-        $nb_publishers = $publishers_object->{"count"};
-
-        //Save informations
-        file_put_contents($module_path.'/data/'.$country.'-nb_publishers.txt', json_encode($nb_publishers));
-
-        /*  Getting the occurrences number */
-
-        //Get informations
-        $curl_occurrences = curl_init();
-        curl_setopt_array($curl_occurrences, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_URL => 'http://api.gbif.org/v1/occurrence/search?publishingCountry='.$country
-        ]);
-
-        if (!curl_exec($curl_occurrences)) {
-            die('Error: "' . curl_error($curl_occurrences) . '" - Code: ' . curl_errno($curl_occurrences));
-        } else {
-            $occurrences_json = curl_exec($curl_occurrences);
-            curl_close($curl_occurrences);
-        }
-
-        //Extract informations
-        $occurrences_object = json_decode($occurrences_json);
-        $nb_occurrences = $occurrences_object->{"count"};
-
-        //Save informations
-        file_put_contents($module_path.'/data/'.$country.'-nb_occurrences.txt', $nb_occurrences);
-
-        /*  Getting the last datasets  */
-
-        //Get informations
-        $curl_datasets = curl_init();
-        curl_setopt_array($curl_datasets, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_URL => 'https://api.gbif.org/v1/dataset?country='.$country
-        ]);
-
-        if (!curl_exec($curl_datasets)) {
-            die('Error: "' . curl_error($curl_datasets) . '" - Code: ' . curl_errno($curl_datasets));
-        } else {
-            $datasets_json = curl_exec($curl_datasets);
-            curl_close($curl_datasets);
-        }
-
-        //Extract informations
-        $datasets_object = json_decode($datasets_json);
-        $last_datasets = $datasets_object->{"results"};
-
-        //Save informations
-        file_put_contents($module_path.'/data/'.$country.'-last_datasets.json', json_encode($last_datasets));
 
         /*  Data for the displaying of information  */
 

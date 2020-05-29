@@ -9,12 +9,12 @@ function gbifstats_help($route_name, RouteMatchInterface $route_match) {
     switch ($route_name) {
         case 'help.page.gbifstats':
             return t('
-        <h2>GBIF Stats generator for Drupal.</h2>
+        <h2>GBIF Stats pour Drupal.</h2>
         <h3>Instructions</h3>
         <p>Allez à l\'adresse  <strong>/gbifstats/generate/{country_code}</strong> où {country_code} est le code en deux lettre du pays dont vous voulez les informations.</p>
         <p>La page générera les informations directement depuis l\'API GBIF.</p>
         <p>Puis visitez <strong>/gbifstats/display/{country_code}</strong> pour voir les informations.</p>
-        <p>Si vous en avez besoin, il existe la permission <em>generate GBIF Stats</em> pour utiliser ce module.</p>
+        <p>Il existe 3 types de permissions dans le module GBIF Stats : <em>install GBIF Stats</em> (pour installer le module), <em>generate GBIF Stats</em> (pour la generation de données) et <em>view GBIF Stats</em> (pour l\'affichage des stats).</p>
       ');
     }
 }
@@ -27,12 +27,14 @@ function gbifstats_theme($existing, $type, $theme, $path) {
     $variables = array(
         'gbifstatsgenerate' => array(
             'variables' => array(
+                'message_erreur' => NULL,
                 'country_code' => NULL,
             ),
             'template' => 'gbifstatsgenerate',
         ),
         'gbifstatsdisplay' => array(
             'variables' => array(
+                'message_erreur' => NULL,
                 'country_code' => NULL,
                 'node_name' => NULL,
                 'website' => NULL,
