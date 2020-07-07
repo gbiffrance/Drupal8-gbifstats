@@ -20,14 +20,14 @@ class GBIFStatsController {
      */
     public function generate($country) {
 
-        // Get Default settings in gbifstats.settings.yml
-        $config = \Drupal::config('gbifstats.settings');
+        // Get Default settings
+        $config         = \Drupal::config('gbifstats.settings');
         // Page title and source text.
-        $page_title = $config->get('gbifstats.page_title');
+        $page_title     = $config->get('gbifstats.page_title');
 
         //Path of the module
         $module_handler = \Drupal::service('module_handler');
-        $module_path = $module_handler->getModule('gbifstats')->getPath();
+        $module_path    = $module_handler->getModule('gbifstats')->getPath();
 
         /*  Test the validity of the country code   */
         $countryCode = ["AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ", "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC", "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FM", "FO", "FR", "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS", "GT", "GU", "GW", "GY", "HK", "HM", "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT", "JE", "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ", "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PW", "PY", "QA", "RE", "RO", "RS", "RU", "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SY", "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "ZA", "ZM", "ZW"];
@@ -41,7 +41,7 @@ class GBIFStatsController {
             /*  Getting the number of publishers   */
 
             //Get informations
-            $curl_publishers = curl_init();
+            $curl_publishers    = curl_init();
             curl_setopt_array($curl_publishers, [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_URL => 'https://www.gbif.org/api/publisher/search?isEndorsed=true&country=' . $country
@@ -55,8 +55,8 @@ class GBIFStatsController {
             }
 
             //Extract informations
-            $publishers_object = json_decode($publishers_json);
-            $nb_publishers = $publishers_object->{"count"};
+            $publishers_object  = json_decode($publishers_json);
+            $nb_publishers      = $publishers_object->{"count"};
 
             //Save informations
             file_put_contents($module_path . '/data/' . $country . '-nb_publishers.txt', json_encode($nb_publishers));
@@ -64,10 +64,10 @@ class GBIFStatsController {
             /*  Getting the occurrences number */
 
             //Get informations
-            $curl_occurrences = curl_init();
+            $curl_occurrences   = curl_init();
             curl_setopt_array($curl_occurrences, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_URL => 'http://api.gbif.org/v1/occurrence/search?publishingCountry=' . $country
+                CURLOPT_RETURNTRANSFER  => true,
+                CURLOPT_URL             => 'http://api.gbif.org/v1/occurrence/search?publishingCountry=' . $country
             ]);
 
             if (!curl_exec($curl_occurrences)) {
@@ -79,7 +79,7 @@ class GBIFStatsController {
 
             //Extract informations
             $occurrences_object = json_decode($occurrences_json);
-            $nb_occurrences = $occurrences_object->{"count"};
+            $nb_occurrences     = $occurrences_object->{"count"};
 
             //Save informations
             file_put_contents($module_path . '/data/' . $country . '-nb_occurrences.txt', $nb_occurrences);
@@ -87,22 +87,22 @@ class GBIFStatsController {
             /*  Getting the last datasets  */
 
             //Get informations
-            $curl_datasets = curl_init();
+            $curl_datasets      = curl_init();
             curl_setopt_array($curl_datasets, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_URL => 'https://api.gbif.org/v1/dataset?country=' . $country
+                CURLOPT_RETURNTRANSFER  => true,
+                CURLOPT_URL             => 'https://api.gbif.org/v1/dataset?country=' . $country
             ]);
 
             if (!curl_exec($curl_datasets)) {
                 die('Error: "' . curl_error($curl_datasets) . '" - Code: ' . curl_errno($curl_datasets));
             } else {
-                $datasets_json = curl_exec($curl_datasets);
+                $datasets_json  = curl_exec($curl_datasets);
                 curl_close($curl_datasets);
             }
 
             //Extract informations
-            $datasets_object = json_decode($datasets_json);
-            $last_datasets = $datasets_object->{"results"};
+            $datasets_object    = json_decode($datasets_json);
+            $last_datasets      = $datasets_object->{"results"};
 
             //Save informations
             file_put_contents($module_path . '/data/' . $country . '-last_datasets.json', json_encode($last_datasets));
@@ -110,11 +110,11 @@ class GBIFStatsController {
 
         /*  Data for the displaying of information  */
 
-        $element['#country_code'] = Html::escape($country);
-        $element['#title'] = Html::escape($page_title);
+        $element['#country_code']   = Html::escape($country);
+        $element['#title']          = Html::escape($page_title);
 
         // Theme function.
-        $element['#theme'] = 'gbifstatsgenerate';
+        $element['#theme']  = 'gbifstatsgenerate';
 
         /*  End : Data for the displaying of information  */
 
@@ -127,37 +127,37 @@ class GBIFStatsController {
      * @return mixed    html displaying the GBIF data on one country
      */
     public function display($country) {
-        // Get Default settings in gbifstats.settings.yml
+        // Get Default settings
         $config = \Drupal::config('gbifstats.settings');
         // Getting module parameters
-        $page_title = $config->get('gbifstats.page_title');
-        $node_name = $config->get('gbifstats.node_name');
-        $website = $config->get('gbifstats.website');
-        $head_delegation = $config->get('gbifstats.head_delegation');
-        $node_manager = $config->get('gbifstats.node_manager');
-        $link_page_GBIF = $config->get('gbifstats.link_page_GBIF');
-        $nb_publishers = $config->get('gbifstats.nb_publishers');
-        $nb_occurrences = $config->get('gbifstats.nb_occurrences');
-        $categories = $config->get('gbifstats.categories');
-        $display_map = $config->get('gbifstats.display_map');
+        $page_title         = $config->get('gbifstats.page_title');
+        $node_name          = $config->get('gbifstats.node_name');
+        $website            = $config->get('gbifstats.website');
+        $head_delegation    = $config->get('gbifstats.head_delegation');
+        $node_manager       = $config->get('gbifstats.node_manager');
+        $link_page_GBIF     = $config->get('gbifstats.link_page_GBIF');
+        $nb_publishers      = $config->get('gbifstats.nb_publishers');
+        $nb_occurrences     = $config->get('gbifstats.nb_occurrences');
+        $categories         = $config->get('gbifstats.categories');
+        $display_map        = $config->get('gbifstats.display_map');
 
         //Path of the module
-        $module_handler = \Drupal::service('module_handler');
-        $module_path = $module_handler->getModule('gbifstats')->getPath();
+        $module_handler     = \Drupal::service('module_handler');
+        $module_path        = $module_handler->getModule('gbifstats')->getPath();
 
         //Initialing variables
-        $last_datasets_json = $nb_publishers_txt = $nb_occurrences_txt = "";
-        $element['#last_datasets'] = array();
-        $element['#nb_publishers'] = Html::escape($nb_publishers);
+        $last_datasets_json         = $nb_publishers_txt = $nb_occurrences_txt = "";
+        $element['#last_datasets']  = array();
+        $element['#nb_publishers']  = Html::escape($nb_publishers);
         $element['#nb_occurrences'] = Html::escape($nb_occurrences);
-        $element['#display_map'] = Html::escape($display_map);
+        $element['#display_map']    = Html::escape($display_map);
 
         /*  Getting the number of publishers   */
         if($categories["nb_publishers"] != "0") {
-            $nb_publishers_txt = file_get_contents($module_path . '/data/' . $country . '-nb_publishers.txt');
-            $element['#nb_publishers'] = Html::escape("" . $nb_publishers_txt);
+            $nb_publishers_txt          = file_get_contents($module_path . '/data/' . $country . '-nb_publishers.txt');
+            $element['#nb_publishers']  = Html::escape("" . $nb_publishers_txt);
         }else{
-            $element['#nb_publishers'] = Html::escape("NoSelect");
+            $element['#nb_publishers']  = Html::escape("NoSelect");
         }
 
         /*  Getting the occurrences number */
@@ -175,8 +175,8 @@ class GBIFStatsController {
 
             for ($index = 0; $index < 5; $index++) {
                 $dataset = array();
-                $dataset['key_dataset'] = Html::escape("" . $datasets_array[$index]["key"]);
-                $dataset['title_dataset'] = Html::escape("" . $datasets_array[$index]["title"]);
+                $dataset['key_dataset']     = Html::escape("" . $datasets_array[$index]["key"]);
+                $dataset['title_dataset']   = Html::escape("" . $datasets_array[$index]["title"]);
                 array_push($element['#last_datasets'], $dataset);
             }
         }else{
@@ -191,13 +191,13 @@ class GBIFStatsController {
         }
 
         /*  Data for the displaying of information  */
-        $element['#node_name'] = Html::escape($node_name);
-        $element['#website'] = Html::escape($website);
-        $element['#head_delegation'] = Html::escape($head_delegation);
-        $element['#node_manager'] = Html::escape($node_manager);
-        $element['#link_page_GBIF'] = Html::escape($link_page_GBIF);
-        $element['#country_code'] = Html::escape($country);
-        $element['#title'] = Html::escape($page_title);
+        $element['#node_name']          = Html::escape($node_name);
+        $element['#website']            = Html::escape($website);
+        $element['#head_delegation']    = Html::escape($head_delegation);
+        $element['#node_manager']       = Html::escape($node_manager);
+        $element['#link_page_GBIF']     = Html::escape($link_page_GBIF);
+        $element['#country_code']       = Html::escape($country);
+        $element['#title']              = Html::escape($page_title);
 
         /*  Data for js function  */
         $element['#attached']['library'][] = 'gbifstats/gbifstats';
