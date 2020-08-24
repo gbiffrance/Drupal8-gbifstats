@@ -48,9 +48,12 @@ class GBIFStatsController {
             $element['#message_erreur'] = Html::escape("Code pays invalide dans votre URL");
         }else {
 
-            /*  Getting the custom country (if apply)   */
+            /*  Getting the true country param for the API request   */
+
             if(array_key_exists($country, $list_country_custom)){
-                $country = $list_country_custom[$country];
+                $param_country  = $list_country_custom[$country];
+            }else{
+                $param_country = $country;
             }
 
             /*  Getting the number of publishers   */
@@ -59,7 +62,7 @@ class GBIFStatsController {
             $curl_publishers    = curl_init();
             curl_setopt_array($curl_publishers, [
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_URL => 'https://www.gbif.org/api/publisher/search?isEndorsed=true&country=' . $country
+                CURLOPT_URL => 'https://www.gbif.org/api/publisher/search?isEndorsed=true&country=' . $param_country
             ]);
 
             if (!curl_exec($curl_publishers)) {
@@ -82,7 +85,7 @@ class GBIFStatsController {
             $curl_occurrences   = curl_init();
             curl_setopt_array($curl_occurrences, [
                 CURLOPT_RETURNTRANSFER  => true,
-                CURLOPT_URL             => 'http://api.gbif.org/v1/occurrence/search?country=' . $country
+                CURLOPT_URL             => 'http://api.gbif.org/v1/occurrence/search?country=' . $param_country
             ]);
 
             if (!curl_exec($curl_occurrences)) {
@@ -105,7 +108,7 @@ class GBIFStatsController {
             $curl_datasets      = curl_init();
             curl_setopt_array($curl_datasets, [
                 CURLOPT_RETURNTRANSFER  => true,
-                CURLOPT_URL             => 'https://api.gbif.org/v1/dataset?country=' . $country
+                CURLOPT_URL             => 'https://api.gbif.org/v1/dataset?country=' . $param_country
             ]);
 
             if (!curl_exec($curl_datasets)) {
