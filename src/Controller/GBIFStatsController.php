@@ -29,14 +29,29 @@ class GBIFStatsController {
         $module_handler = \Drupal::service('module_handler');
         $module_path    = $module_handler->getModule('gbifstats')->getPath();
 
+        /*  Getting the custom country   */
+        $country_custom_txt          = file_get_contents($module_path . '/data/country_custom.txt');
+        $country_custom  = Html::escape("" . $country_custom_txt);
+        $list_country_custom = array();
+
+        foreach ($country_custom as $ligne_custom){
+            $tab_custom = explode(" | ", $ligne_custom);
+            $list_country_custom[$tab_custom[0]] = $tab_custom[1];
+        }
+
         /*  Test the validity of the country code   */
         $countryCode = ["AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ", "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC", "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FM", "FO", "FR", "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS", "GT", "GU", "GW", "GY", "HK", "HM", "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT", "JE", "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ", "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PW", "PY", "QA", "RE", "RO", "RS", "RU", "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SY", "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "ZA", "ZM", "ZW"];
 
         $element['#message_erreur'] = "NoError";
 
-        if(! in_array($country, $countryCode)){
+        if(! in_array($country, $countryCode) && ! array_key_exists($country, $list_country_custom)){
             $element['#message_erreur'] = Html::escape("Code pays invalide dans votre URL");
         }else {
+
+            /*  Getting the custom country (if apply)   */
+            if(array_key_exists($country, $list_country_custom)){
+                $country = $list_country_custom[$country];
+            }
 
             /*  Getting the number of publishers   */
 
@@ -67,7 +82,7 @@ class GBIFStatsController {
             $curl_occurrences   = curl_init();
             curl_setopt_array($curl_occurrences, [
                 CURLOPT_RETURNTRANSFER  => true,
-                CURLOPT_URL             => 'http://api.gbif.org/v1/occurrence/search?publishingCountry=' . $country
+                CURLOPT_URL             => 'http://api.gbif.org/v1/occurrence/search?country=' . $country
             ]);
 
             if (!curl_exec($curl_occurrences)) {
