@@ -36,6 +36,7 @@ function gbifstats_theme($existing, $type, $theme, $path) {
             'variables' => array(
                 'message_erreur' => NULL,
                 'country_code' => NULL,
+                'country_param' => NULL,
                 'node_name' => NULL,
                 'website' => NULL,
                 'head_delegation' => NULL,

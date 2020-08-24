@@ -51,9 +51,9 @@ class GBIFStatsController {
             /*  Getting the true country param for the API request   */
 
             if(array_key_exists($country, $list_country_custom)){
-                $param_country  = $list_country_custom[$country];
+                $country_param  = $list_country_custom[$country];
             }else{
-                $param_country = $country;
+                $country_param = $country;
             }
 
             /*  Getting the number of publishers   */
@@ -62,7 +62,7 @@ class GBIFStatsController {
             $curl_publishers    = curl_init();
             curl_setopt_array($curl_publishers, [
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_URL => 'https://www.gbif.org/api/publisher/search?isEndorsed=true&country=' . $param_country
+                CURLOPT_URL => 'https://www.gbif.org/api/publisher/search?isEndorsed=true&country=' . $country_param
             ]);
 
             if (!curl_exec($curl_publishers)) {
@@ -85,7 +85,7 @@ class GBIFStatsController {
             $curl_occurrences   = curl_init();
             curl_setopt_array($curl_occurrences, [
                 CURLOPT_RETURNTRANSFER  => true,
-                CURLOPT_URL             => 'http://api.gbif.org/v1/occurrence/search?country=' . $param_country
+                CURLOPT_URL             => 'http://api.gbif.org/v1/occurrence/search?country=' . $country_param
             ]);
 
             if (!curl_exec($curl_occurrences)) {
@@ -108,7 +108,7 @@ class GBIFStatsController {
             $curl_datasets      = curl_init();
             curl_setopt_array($curl_datasets, [
                 CURLOPT_RETURNTRANSFER  => true,
-                CURLOPT_URL             => 'https://api.gbif.org/v1/dataset?country=' . $param_country
+                CURLOPT_URL             => 'https://api.gbif.org/v1/dataset?country=' . $country_param
             ]);
 
             if (!curl_exec($curl_datasets)) {
@@ -169,6 +169,25 @@ class GBIFStatsController {
         $element['#nb_publishers']  = Html::escape($nb_publishers);
         $element['#nb_occurrences'] = Html::escape($nb_occurrences);
         $element['#display_map']    = Html::escape($display_map);
+
+        /*  Getting the custom country   */
+        $country_custom_txt          = file_get_contents($module_path . '/data/country_custom.txt');
+        $country_custom  = Html::escape("" . $country_custom_txt);
+        $list_country_custom = array();
+
+        foreach ($country_custom as $ligne_custom){
+            $tab_custom = explode(" | ", $ligne_custom);
+            $list_country_custom[$tab_custom[0]] = $tab_custom[1];
+        }
+
+        /*  Getting the true country param for the API request   */
+
+        if(array_key_exists($country, $list_country_custom)){
+            $element['#country_param'] = Html::escape($list_country_custom[$country]);
+        }else{
+            $element['#country_param'] = Html::escape($country);
+        }
+
 
         /*  Getting the number of publishers   */
         if($categories["nb_publishers"] != "0") {
