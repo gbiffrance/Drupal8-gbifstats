@@ -30,13 +30,13 @@ class GBIFStatsController {
         $module_path    = $module_handler->getModule('gbifstats')->getPath();
 
         /*  Getting the custom country   */
-        $country_custom_txt          = file_get_contents($module_path . '/data/country_custom.txt');
-        $country_custom  = Html::escape("" . $country_custom_txt);
+        $country_custom_txt  = file_get_contents($module_path . '/data/country_custom.txt');
+        $country_custom_tab  = explode(PHP_EOL, $country_custom_txt);
         $list_country_custom = array();
 
-        foreach ($country_custom as $ligne_custom){
-            $tab_custom = explode(" | ", $ligne_custom);
-            $list_country_custom[$tab_custom[0]] = $tab_custom[1];
+        foreach ($country_custom_tab as $ligne_fichier){
+            $ligne_custom = explode("-----", $ligne_fichier);
+            $list_country_custom[$ligne_custom[0]] = $ligne_custom[1];
         }
 
         /*  Test the validity of the country code   */
@@ -171,74 +171,85 @@ class GBIFStatsController {
         $element['#display_map']    = Html::escape($display_map);
 
         /*  Getting the custom country   */
-        $country_custom_txt          = file_get_contents($module_path . '/data/country_custom.txt');
-        $country_custom  = Html::escape("" . $country_custom_txt);
+        $country_custom_txt  = file_get_contents($module_path . '/data/country_custom.txt');
+        $country_custom_tab  = explode(PHP_EOL, $country_custom_txt);
         $list_country_custom = array();
 
-        foreach ($country_custom as $ligne_custom){
-            $tab_custom = explode(" | ", $ligne_custom);
-            $list_country_custom[$tab_custom[0]] = $tab_custom[1];
+        foreach ($country_custom_tab as $ligne_fichier){
+            $ligne_custom = explode("-----", $ligne_fichier);
+            $list_country_custom[$ligne_custom[0]] = $ligne_custom[1];
         }
 
-        /*  Getting the true country param for the API request   */
+        /*  Test the validity of the country code   */
+        $countryCode = ["AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ", "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC", "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FM", "FO", "FR", "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS", "GT", "GU", "GW", "GY", "HK", "HM", "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT", "JE", "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ", "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PW", "PY", "QA", "RE", "RO", "RS", "RU", "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SY", "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "ZA", "ZM", "ZW"];
 
-        if(array_key_exists($country, $list_country_custom)){
-            $element['#country_param'] = Html::escape($list_country_custom[$country]);
-        }else{
-            $element['#country_param'] = Html::escape($country);
-        }
+        $element['#message_erreur'] = "NoError";
 
+        if(! in_array($country, $countryCode) && ! array_key_exists($country, $list_country_custom)){
+            $element['#message_erreur'] = Html::escape("Code pays invalide dans votre URL");
+        }else {
 
-        /*  Getting the number of publishers   */
-        if($categories["nb_publishers"] != "0") {
-            $nb_publishers_txt          = file_get_contents($module_path . '/data/' . $country . '-nb_publishers.txt');
-            $element['#nb_publishers']  = Html::escape("" . $nb_publishers_txt);
-        }else{
-            $element['#nb_publishers']  = Html::escape("NoSelect");
-        }
+            /*  Getting the true country param for the API request   */
 
-        /*  Getting the occurrences number */
-        if($categories["nb_occurrences"] != "0") {
-            $nb_occurrences_txt = file_get_contents($module_path . '/data/' . $country . '-nb_occurrences.txt');
-            $element['#nb_occurrences'] = Html::escape("" . $nb_occurrences_txt);
-        }else{
-            $element['#nb_occurrences'] = Html::escape("NoSelect");
-        }
-
-        /*  Getting the last datasets  */
-        if($categories["last_dataset"] != "0") {
-            $last_datasets_json = file_get_contents($module_path . '/data/' . $country . '-last_datasets.json');
-            $datasets_array = json_decode($last_datasets_json, true);
-
-            for ($index = 0; $index < 5; $index++) {
-                $dataset = array();
-                $dataset['key_dataset']     = Html::escape("" . $datasets_array[$index]["key"]);
-                $dataset['title_dataset']   = Html::escape("" . $datasets_array[$index]["title"]);
-                array_push($element['#last_datasets'], $dataset);
+            if (array_key_exists($country, $list_country_custom)) {
+                $element['#country_param'] = $list_country_custom[$country];
+            } else {
+                $element['#country_param'] = $country;
             }
-        }else{
-            $element['#last_datasets'] = Html::escape("NoSelect");
-        }
 
-        /*  Displaying the map or not   */
-        if($display_map != "0") {
-            $element['#display_map'] = Html::escape("oui");
-        }else{
-            $element['#display_map'] = Html::escape("non");
+
+            /*  Getting the number of publishers   */
+            if ($categories["nb_publishers"] != "0") {
+                $nb_publishers_txt = file_get_contents($module_path . '/data/' . $country . '-nb_publishers.txt');
+                $element['#nb_publishers'] = Html::escape("" . $nb_publishers_txt);
+            } else {
+                $element['#nb_publishers'] = Html::escape("NoSelect");
+            }
+
+            /*  Getting the occurrences number */
+            if ($categories["nb_occurrences"] != "0") {
+                $nb_occurrences_txt = file_get_contents($module_path . '/data/' . $country . '-nb_occurrences.txt');
+                $element['#nb_occurrences'] = Html::escape("" . $nb_occurrences_txt);
+            } else {
+                $element['#nb_occurrences'] = Html::escape("NoSelect");
+            }
+
+            /*  Getting the last datasets  */
+            if ($categories["last_dataset"] != "0") {
+                $last_datasets_json = file_get_contents($module_path . '/data/' . $country . '-last_datasets.json');
+                $datasets_array = json_decode($last_datasets_json, true);
+
+                for ($index = 0; $index < 5; $index++) {
+                    $dataset = array();
+                    $dataset['key_dataset'] = Html::escape("" . $datasets_array[$index]["key"]);
+                    $dataset['title_dataset'] = Html::escape("" . $datasets_array[$index]["title"]);
+                    array_push($element['#last_datasets'], $dataset);
+                }
+            } else {
+                $element['#last_datasets'] = Html::escape("NoSelect");
+            }
+
+            /*  Displaying the map or not   */
+            if ($display_map != "0") {
+                $element['#display_map'] = Html::escape("oui");
+            } else {
+                $element['#display_map'] = Html::escape("non");
+            }
+
+            /*  Data for js function  */
+            $element['#attached']['library'][] = 'gbifstats/gbifstats';
+            $element['#attached']['drupalSettings']['gbifstats']['gbifstats']['country_code'] = $element['#country_param'];
+
         }
 
         /*  Data for the displaying of information  */
-        $element['#node_name']          = Html::escape($node_name);
-        $element['#website']            = Html::escape($website);
-        $element['#head_delegation']    = Html::escape($head_delegation);
-        $element['#node_manager']       = Html::escape($node_manager);
-        $element['#link_page_GBIF']     = Html::escape($link_page_GBIF);
-        $element['#country_code']       = Html::escape($country);
-        $element['#title']              = Html::escape($page_title);
-
-        /*  Data for js function  */
-        $element['#attached']['library'][] = 'gbifstats/gbifstats';
-        $element['#attached']['drupalSettings']['gbifstats']['gbifstats']['country_code'] = $country;
+        $element['#node_name'] = Html::escape($node_name);
+        $element['#website'] = Html::escape($website);
+        $element['#head_delegation'] = Html::escape($head_delegation);
+        $element['#node_manager'] = Html::escape($node_manager);
+        $element['#link_page_GBIF'] = Html::escape($link_page_GBIF);
+        $element['#country_code'] = Html::escape($country);
+        $element['#title'] = Html::escape($page_title);
 
         // Theme function.
         $element['#theme'] = 'gbifstatsdisplay';
