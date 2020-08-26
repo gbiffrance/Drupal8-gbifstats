@@ -21,7 +21,12 @@ Il existe 3 types de permissions dans le module GBIF Stats :
 
 Important
 ---------
-Vérifiez que Drupal puisse écrire dans le dossier `data` du module. Si ce n'est pas le cas, suivez les instructions du fichier READEME.md du dossier `data` 
+Vérifiez que Drupal puisse écrire dans le dossier `data` du module. Si ce n'est pas le cas, suivez les instructions du fichier README.md du dossier `data` 
+
+Alias de zone geographique
+--------------------------
+Des noms peuvent être donné à des zones géographiques qui regroupent 1 ou plusieurs pays. (Ex : France pour FR ; Amerique_Nord pour CA+US+MX) 
+Pour cela, ajouter une ligne dans le fichier `data/country_custom.txt` au format `[NOM_DE_L_ALIAS]-----[SUITE_DE_CODE_PAYS]` avec `[SUITE_DE_CODE_PAYS]` de la forme `[CODE_PAYS_1]&country=[CODE_PAYS_1]&country=....`
 
 Attention
 ---------
