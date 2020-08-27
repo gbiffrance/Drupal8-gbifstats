@@ -55,7 +55,7 @@
         <div class="stats-rond col-xs-12 col-sm-6">
 
         {% if nb_publishers  is not sameas("NoSelect") or  nb_occurrences  is not sameas("NoSelect") %}
-            <p class="stats_texte">Sur le GBIF,</p>
+            <p class="stats_texte">Sur le GBIF, pour la zone sélectionnée,</p>
         {% endif %}
 
         {#/*  Number of publishers number */#}
@@ -67,7 +67,7 @@
                 <p class="stats_chiffre">Error : country unknow or getting no publishers</p>
             {% endif %}
 
-            <p class="stats_texte">fournisseurs de donn&eacute;es fran&ccedil;ais publient</p>
+            <p class="stats_texte">fournisseurs de donn&eacute;es publient</p>
 
         {% endif %}
 

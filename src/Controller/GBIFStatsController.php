@@ -201,7 +201,7 @@ class GBIFStatsController {
             /*  Getting the number of publishers   */
             if ($categories["nb_publishers"] != "0") {
                 $nb_publishers_txt = file_get_contents($module_path . '/data/' . $country . '-nb_publishers.txt');
-                $element['#nb_publishers'] = Html::escape("" . $nb_publishers_txt);
+                $element['#nb_publishers'] = Html::escape("" . number_format($nb_publishers_txt, 0, ',', ' '));
             } else {
                 $element['#nb_publishers'] = Html::escape("NoSelect");
             }
@@ -209,7 +209,7 @@ class GBIFStatsController {
             /*  Getting the occurrences number */
             if ($categories["nb_occurrences"] != "0") {
                 $nb_occurrences_txt = file_get_contents($module_path . '/data/' . $country . '-nb_occurrences.txt');
-                $element['#nb_occurrences'] = Html::escape("" . $nb_occurrences_txt);
+                $element['#nb_occurrences'] = Html::escape("" . number_format($nb_occurrences_txt, 0, ',', ' '));
             } else {
                 $element['#nb_occurrences'] = Html::escape("NoSelect");
             }
