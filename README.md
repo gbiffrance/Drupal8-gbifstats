@@ -30,7 +30,6 @@ Pour cela, ajouter une ligne dans le fichier `data/country_custom.txt` au format
 
 Attention
 ---------
-
 Ce module est en cours de travail. Reportez tout bugs et suggestions.
 
 ---
@@ -63,8 +62,12 @@ Important
 ---------
 Drupal must have the right to write into the folder `data`. If that not the case, follow the instructions of the README.md of the `data` folder. 
 
+Geographic Area Alias
+----------------------
+Alias cen be add to geographic area who contains 1 or more country. (Ex : France for FR ; North_America for CA+US+MX) 
+To add Alias, add line into the `data/country_custom.txt` file with the following format `[NAME_OF_ALIAS]-----[COUNTRY_CODE]` avec `[COUNTRY_CODE]` somethig like this `[COUNTRY_CODE_1]&country=[COUNTRY_CODE_2]&country=....`
+
 
 Attention
 ---------
-
 This module is a work in progress. Please report bugs and suggestions.
