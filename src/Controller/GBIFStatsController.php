@@ -62,7 +62,7 @@ class GBIFStatsController {
             $curl_publishers    = curl_init();
             curl_setopt_array($curl_publishers, [
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_URL => 'https://www.gbif.org/api/publisher/search?isEndorsed=true&country=' . $country_param
+                CURLOPT_URL => 'https://api.gbif.org/v1/occurrence/search?country=' . $country_param.'&limit=0&facet=publishingOrg&facetLimit=1000'
             ]);
 
             if (!curl_exec($curl_publishers)) {
@@ -74,7 +74,8 @@ class GBIFStatsController {
 
             //Extract informations
             $publishers_object  = json_decode($publishers_json);
-            $nb_publishers      = $publishers_object->{"count"};
+            $facet_publishers   = $publishers_object->{"facets"};
+            $nb_publishers      = count($facet_publishers[0]->{"counts"});
 
             //Save informations
             file_put_contents($module_path . '/data/' . $country . '-nb_publishers.txt', json_encode($nb_publishers));
