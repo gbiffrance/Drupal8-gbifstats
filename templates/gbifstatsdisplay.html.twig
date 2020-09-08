@@ -6,7 +6,7 @@
  * Available variables (see gbifstats_theme in gbifstats.module):
  *   - 'title'
  *   - 'country_code'
-  *   - 'country_param'
+ *   - 'country_param'
  *   - 'link_page_GBIF'
  *   - 'node_manager'
  *   - 'head_delegation'
@@ -61,8 +61,10 @@
         {#/*  Number of publishers number */#}
         {% if nb_publishers is not sameas("NoSelect") %}
 
-            {% if nb_publishers|length > 0 %}
-                <p class="stats_chiffre"><a href="https://www.gbif.org/fr/publisher/search?country={{ country_code }}" target="_blank">{{ nb_publishers }}</a></p>
+            {% if country_param != country_code %}
+                <p class="stats_chiffre">{{ nb_publishers }}</p>
+            {% elseif nb_publishers|length > 0 %}
+                <p class="stats_chiffre"><a href="https://www.gbif.org/country/{{ country_code }}/summary" target="_blank">{{ nb_publishers }}</a></p>
             {% else %}
                 <p class="stats_chiffre">Error : country unknow or getting no publishers</p>
             {% endif %}
@@ -75,7 +77,7 @@
         {% if nb_occurrences is not sameas("NoSelect") %}
 
             {% if nb_occurrences|length > 0 %}
-                <p class="stats_chiffre"><a href="https://www.gbif.org/fr/occurrence/search?publishing_country={{ country_code }}&advanced=1" target="_blank">{{ nb_occurrences }}</a></p>
+                <p class="stats_chiffre"><a href="https://www.gbif.org/fr/occurrence/search?country={{ country_param }}&advanced=1" target="_blank">{{ nb_occurrences }}</a></p>
             {% else %}
                 <p class="stats_chiffre">Error : country unknow or getting no occurrences</p>
             {% endif %}
