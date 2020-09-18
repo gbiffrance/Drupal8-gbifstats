@@ -6,7 +6,7 @@
   "license": "GPL-2.0-or-later",
   "minimum-stability": "dev",
   "require": {
-    "leaflet": "~1.36"
+    "drupal/leaflet": "^2"
   },
   "repositories": {
     "drupal": {
