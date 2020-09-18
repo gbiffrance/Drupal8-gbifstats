@@ -18,4 +18,4 @@ gbifstats.form:
     _form: 'Drupal\gbifstats\Form\GBIFStatsForm'
     _title: 'GBIF Stats settings'
   requirements:
-    _permission: 'install GBIF Stats'
+    _permission: 'configure GBIF Stats'

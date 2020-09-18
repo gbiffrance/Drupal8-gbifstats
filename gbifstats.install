@@ -12,7 +12,7 @@ use Drupal\user\RoleInterface;
  */
 function gbifstats_install() {
   user_role_change_permissions(RoleInterface::ANONYMOUS_ID, array(
-    'install GBIF Stats' => TRUE,
+    'configure GBIF Stats' => TRUE,
     'view GBIF Stats' => TRUE
   ));
 }

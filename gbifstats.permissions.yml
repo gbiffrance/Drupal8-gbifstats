@@ -1,6 +1,6 @@
-install GBIF Stats:
-  title: 'Install GBIF Stats'
-  description: 'Allow the installation of the GBIF Stats module'
+configure GBIF Stats:
+  title: 'Configure GBIF Stats'
+  description: 'Allow the configuration of the GBIF Stats module'
 generate GBIF Stats:
   title: 'Generate GBIF Stats'
   description: 'Allow the generation of data files use by the display page'

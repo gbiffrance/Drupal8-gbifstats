@@ -15,7 +15,7 @@ Instructions
 ---
 
 Il existe 3 types de permissions dans le module GBIF Stats : 
-    *install GBIF Stats* : pour installer le module, 
+    *configure GBIF Stats* : pour configurer le module, 
     *generate GBIF Stats* : pour la generation de données (l'accès est restreint de base) 
     *view GBIF Stats* : pour l'affichage des stats.
 
@@ -52,7 +52,7 @@ Instructions
 ---
 
 3 permissions are availables on the GBIF Stats module : 
-    *install GBIF Stats* : to install the module, 
+    *configure GBIF Stats* : to configure the module, 
     *generate GBIF Stats* : to the data file generation (acces restricted by default), 
     *view GBIF Stats* : to watch the gbif stats
 
