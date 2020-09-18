@@ -57,7 +57,7 @@ Installation Instructions
     ],
    ```
    2. Install the package (pay attention to package name): 
-   > $ composer require "drupal/gbifstats"
+   > $ composer require --prefer-dist "drupal/gbifstats"
 
    3. Enable it for the appropriate site:
    > $ drush @site-alias en gbifstats
