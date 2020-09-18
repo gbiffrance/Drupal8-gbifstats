@@ -40,23 +40,47 @@ GBIF Stats
 
 GBIF Statistiques generator for Drupal 8.
 
-Instructions
+Installation Instructions
 ------------
 
-1. Unpack the archive in the *modules/custom* folder (currently in the root of your Drupal 8 installation) and enable it in the administrative module page (`[URL_of_home_page]/admin/modules`).
+1. Option: direct install
+   1. Unpack the archive in the *web/modules/custom* folder
+   2. As Admin, Enable it in the administrative module page (`[URL_of_home_page]/admin/modules`).
+2. Option: composer install
+   1. Add package to the composer.json file repository section:
+   ```json
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/gbiffrance/Drupal8-gbifstats"
+        }
+    ],
+   ```
+   2. Install the package (pay attention to package name): 
+   > $ composer require "drupal/gbifstats"
 
+   3. Enable it for the appropriate site:
+   > $ drush @site-alias en gbifstats
+
+3. As Admin, Configure permissions for installation-specific role mapping (`[URL_of_home_page]/admin/people/permissions`).
+   
+   3 permissions are availables on the GBIF Stats module : 
+   - *configure GBIF Stats* : to configure the module, 
+   - *generate GBIF Stats* : to the data file generation (acces restricted by default), 
+   - *view GBIF Stats* : to watch the gbif stats
+
+Configuring, generating and viewing
+------------
+
+1. Visit `[URL_of_home_page]/admin/config/development/gbifstats` to configure global parameters
 2. Visit `[URL_of_home_page]/gbifstats/generate/{country}` to generate the files who containst information about the country;`{country}` is the two-letter country code.
 
 3. Visit `[URL_of_Drupal]/gbifstats/display/{country}` to see your page displaying the information.
 
 ---
 
-3 permissions are availables on the GBIF Stats module : 
-    *configure GBIF Stats* : to configure the module, 
-    *generate GBIF Stats* : to the data file generation (acces restricted by default), 
-    *view GBIF Stats* : to watch the gbif stats
 
-If you need the information for other modules, be advice than you will need *generate GBIF Stats* permission.
+If you need the information for other countries, be advice than you will need *generate GBIF Stats* permission.
 
 Important
 ---------
@@ -64,7 +88,7 @@ Drupal must have the right to write into the folder `data`. If that not the case
 
 Geographic Area Alias
 ----------------------
-Alias cen be add to geographic area who contains 1 or more country. (Ex : France for FR ; North_America for CA+US+MX) 
+Alias cen be added to geographic area who contains 1 or more country. (Ex : France for FR ; North_America for CA+US+MX) 
 To add Alias, add line into the `data/country_custom.txt` file with the following format `[NAME_OF_ALIAS]-----[COUNTRY_CODE]` avec `[COUNTRY_CODE]` somethig like this `[COUNTRY_CODE_1]&country=[COUNTRY_CODE_2]&country=....`
 
 
